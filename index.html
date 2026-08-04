@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FS Time Tracker</title>
+<style>
+  /* ============================================================
+     Lara Kroeker Interactive — Colors & Type (inlined — the sandboxed
+     preview blocks file:// requests outside the Forge & Spark folder,
+     so this can't be an external <link> to the LKI Design Guidelines)
+     ============================================================ */
+  @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap");
+
+  :root {
+    --lki-dark:         #101E2A;
+    --lki-white:        #FFFFFF;
+    --lki-neutral:      #F6F6F5;
+
+    --lki-green-primary:    #7FD099;
+    --lki-green-secondary:  #A6D67C;
+    --lki-green-lime:       #BBF490;
+    --lki-green-deep:       #08A88A;
+    --lki-green-text:       #2F4858;
+
+    --lki-grey-1:       #203B53;
+    --lki-grey-2:       #C1C7CE;
+    --lki-grey-3:       #DDDDDD;
+
+    --lki-cta:          #FF6B9D;
+    --lki-cta-dark:     #FC2E7C;
+    --lki-cta-light:    #F8E3E9;
+
+    --lki-yellow:       #FEE181;
+    --lki-teal:         #00778C;
+    --lki-apricot:      #FC9D5D;
+
+    --lki-error:        #C13515;
+    --lki-info:         #428BFF;
+
+    --bg:               var(--lki-neutral);
+    --bg-raised:        var(--lki-white);
+    --bg-inverse:       var(--lki-dark);
+    --fg:               var(--lki-dark);
+    --fg-muted:         var(--lki-grey-1);
+    --fg-subtle:        var(--lki-grey-2);
+    --fg-on-dark:        var(--lki-neutral);
+    --fg-on-dark-muted:  rgba(246, 246, 245, 0.65);
+    --fg-on-dark-subtle: rgba(246, 246, 245, 0.45);
+    --accent:           var(--lki-green-primary);
+    --accent-deep:      var(--lki-green-deep);
+    --cta:              var(--lki-cta);
+    --cta-hover:        var(--lki-cta-dark);
+    --border:           var(--lki-grey-3);
+    --border-strong:    var(--lki-grey-2);
+
+    --font-sans:    "Inter", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --font-serif:   "Instrument Serif", "Georgia", serif;
+    --font-mono:    "JetBrains Mono", "Menlo", ui-monospace, monospace;
+
+    --fw-light:     300;
+    --fw-regular:   300;
+    --fw-medium:    300;
+    --fw-semibold:  900;
+    --fw-bold:      900;
+    --fw-black:     900;
+
+    --type-display-size: 60px;  --type-display-lh: 72px;
+    --type-h1-size:      48px;  --type-h1-lh:      58px;
+    --type-h2-size:      40px;  --type-h2-lh:      48px;
+    --type-h3-size:      30px;  --type-h3-lh:      38px;
+    --type-h4-size:      28px;  --type-h4-lh:      40px;
+    --type-h5-size:      24px;  --type-h5-lh:      30px;
+    --type-lead-size:    24px;  --type-lead-lh:    34px;
+    --type-lead-bold-size: 18px; --type-lead-bold-lh: 28px;
+    --type-body-size:    16px;  --type-body-lh:    24px;
+    --type-small-size:   14px;  --type-small-lh:   22px;
+    --type-micro-size:   12px;  --type-micro-lh:   18px;
+
+    --sp-1:   4px;
+    --sp-2:   8px;
+    --sp-3:   12px;
+    --sp-4:   16px;
+    --sp-5:   24px;
+    --sp-6:   32px;
+    --sp-7:   48px;
+    --sp-8:   64px;
+    --sp-9:   80px;
+    --sp-10: 120px;
+
+    --radius-none:  0;
+    --radius-sm:    6px;
+    --radius-md:    14px;
+    --radius-lg:    20px;
+    --radius-xl:    32px;
+    --radius-pill:  999px;
+
+    --shadow-xs: 0 1px 2px rgba(13, 10, 44, 0.04);
+    --shadow-inset-hairline: inset 0 -1px 0 rgba(16, 30, 42, 0.08);
+
+    --ease-standard: cubic-bezier(0.32, 0.72, 0.24, 1);
+    --ease-out:      cubic-bezier(0.22, 0.8, 0.36, 1);
+    --dur-fast:      140ms;
+    --dur-std:       220ms;
+    --dur-slow:      400ms;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); background: var(--bg); color: var(--fg); font-size: 15px; line-height: 1.7; }
+
+  .page { max-width: 820px; margin: 0 auto 80px; background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+  .body { padding: 40px 48px; }
+
+  .meta-row { display: flex; gap: 40px; padding: 20px 48px; background: var(--lki-green-lime); border-bottom: 1px solid var(--border); }
+  .meta-row div { display: flex; flex-direction: column; gap: 2px; }
+  .meta-row .label { color: var(--lki-green-text); text-transform: uppercase; font-size: var(--type-micro-size); letter-spacing: 0.06em; font-weight: var(--fw-semibold); }
+  .meta-row .value { color: var(--fg); font-weight: var(--fw-semibold); font-size: var(--type-small-size); }
+
+  h2.section-title {
+    font-size: var(--type-micro-size); text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--accent-deep); font-weight: var(--fw-semibold); margin-bottom: var(--sp-5);
+  }
+
+  /* Priorities banner */
+  .priorities {
+    background: var(--lki-dark); color: var(--fg-on-dark);
+    border-radius: var(--radius-md); padding: var(--sp-5) var(--sp-6);
+    margin-top: var(--sp-7); margin-bottom: var(--sp-7); display: flex; gap: var(--sp-6); flex-wrap: wrap;
+  }
+  .priorities .priorities-label {
+    font-size: var(--type-micro-size); text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--lki-green-primary); font-weight: var(--fw-semibold); width: 100%; margin-bottom: var(--sp-2);
+  }
+  .priority-chip { display: flex; align-items: center; gap: 10px; }
+  .priority-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: var(--radius-pill);
+    background: var(--lki-green-primary); color: var(--lki-dark);
+    font-size: 12px; font-weight: var(--fw-semibold); flex-shrink: 0;
+  }
+  .priority-chip span.name { color: var(--fg-on-dark); font-weight: var(--fw-semibold); font-size: var(--type-small-size); }
+
+  /* Punch list cards */
+  .punch-list { margin-bottom: var(--sp-8); }
+  .punch-item {
+    border-left: 4px solid var(--border); padding-left: var(--sp-4);
+    margin-bottom: var(--sp-6); position: relative;
+  }
+  .punch-item.is-priority { border-left-color: var(--accent); }
+  .punch-item h3 {
+    font-size: var(--type-lead-bold-size); font-weight: var(--fw-semibold); color: var(--fg);
+    display: flex; align-items: center; gap: 8px; margin-bottom: 4px;
+  }
+  .punch-item .priority-tag {
+    font-size: 11px; font-weight: var(--fw-semibold); color: var(--lki-dark);
+    background: var(--lki-green-primary); border-radius: var(--radius-pill);
+    padding: 2px 9px; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .punch-item .links { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 8px; }
+  .punch-item .links a {
+    font-size: var(--type-small-size); color: var(--cta); text-decoration: none;
+    border: 1px solid var(--border); border-radius: var(--radius-pill);
+    padding: 3px 12px; transition: all var(--dur-fast) var(--ease-standard);
+  }
+  .punch-item .links a:hover { background: var(--cta-light); border-color: var(--cta); }
+  .punch-item p.goal { color: var(--accent-deep); font-weight: var(--fw-semibold); font-size: var(--type-small-size); margin: 2px 0 8px; }
+  .punch-item p.note { color: var(--fg-muted); font-size: var(--type-small-size); margin-bottom: 6px; }
+  .punch-item ul { margin: 6px 0 0 18px; color: var(--fg-muted); font-size: var(--type-small-size); }
+  .punch-item ul li { margin-bottom: 4px; }
+  .punch-item .status-note { font-size: var(--type-small-size); color: var(--fg-muted); font-style: italic; }
+
+  /* Dotted section divider */
+  .dotted-divider { border: none; border-top: 2px dotted var(--border-strong); margin: var(--sp-6) 0 var(--sp-8); }
+
+  /* Hours log */
+  .tabs { display: flex; gap: var(--sp-2); margin-bottom: var(--sp-5); flex-wrap: wrap; }
+  .tab-btn {
+    font-family: var(--font-sans); font-size: var(--type-small-size); font-weight: var(--fw-semibold);
+    color: var(--fg-muted); background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius-pill); padding: 6px 18px; cursor: pointer;
+    transition: all var(--dur-fast) var(--ease-standard);
+  }
+  .tab-btn:hover { border-color: var(--border-strong); }
+  .tab-btn.active { background: var(--accent); border-color: var(--accent); color: var(--lki-dark); }
+
+  table.hours-table { width: 100%; border-collapse: collapse; font-size: var(--type-small-size); }
+  .hours-table th {
+    text-align: left; padding: 10px 16px; color: var(--fg-muted);
+    font-size: var(--type-micro-size); text-transform: uppercase; letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border); background: var(--bg);
+    font-family: var(--font-sans); font-weight: var(--fw-semibold);
+  }
+  .hours-table th:last-child, .hours-table td:last-child { text-align: right; }
+  .hours-table td { padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .hours-table .week-header td {
+    background: var(--lki-green-lime); color: var(--lki-green-text); font-weight: var(--fw-semibold);
+    font-size: var(--type-micro-size); text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 16px;
+  }
+  .hours-table .week-total td {
+    background: var(--bg); font-weight: var(--fw-semibold); font-style: italic; color: var(--fg-muted);
+  }
+  .hours-table tfoot td {
+    background: var(--cta-light); font-weight: var(--fw-semibold);
+    font-size: var(--type-body-size); border-top: 2px solid var(--accent);
+  }
+</style>
+</head>
+<body>
+
+<script>
+/**
+ * LKI Shared Header (inlined — see note in <style> above on why)
+ * Call renderLKIHeader(config) once at the start of the page's <script> block.
+ */
+(function () {
+  var GLOBAL = 'https://raw.githubusercontent.com/Lara-Kroeker-Interactive/global-assets/main';
+  var ICON_BASE = GLOBAL + '/Icons/System%20Icons';
+
+  function formatDate(d) {
+    return d.toLocaleDateString('en-US', {
+      weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+    }).toUpperCase();
+  }
+
+  window.renderLKIHeader = function (config) {
+    var title = config.title || '';
+    var quickLinks = config.quickLinks || [];
+
+    var header = document.createElement('header');
+    header.id = 'lki-header';
+    header.style.cssText = [
+      'background:#101E2A',
+      'position:relative',
+      'overflow:hidden',
+      'padding:28px 36px 32px',
+      'min-height:200px',
+      'display:flex',
+      'flex-direction:column',
+      'justify-content:space-between',
+    ].join(';');
+
+    var inner = document.createElement('div');
+    inner.style.cssText = 'position:relative;z-index:2;';
+
+    var logo = document.createElement('img');
+    logo.src = GLOBAL + '/Logo/lki-logo-neutral.svg';
+    logo.alt = 'Lara Kroeker Interactive';
+    logo.style.cssText = 'height:28px;width:auto;display:block;margin-bottom:20px;';
+
+    var titleEl = document.createElement('div');
+    titleEl.style.cssText = [
+      'font-family:Inter,sans-serif',
+      'font-weight:600',
+      'font-size:60px',
+      'color:#F6F6F5',
+      'letter-spacing:-0.5px',
+      'line-height:1.2',
+    ].join(';');
+    titleEl.textContent = title;
+
+    var dateEl = document.createElement('div');
+    dateEl.id = 'lki-header-date';
+    dateEl.style.cssText = [
+      'font-family:Inter,sans-serif',
+      'font-size:11px',
+      'font-weight:600',
+      'color:rgba(246,246,245,0.4)',
+      'letter-spacing:0.08em',
+      'text-transform:uppercase',
+      'margin-top:6px',
+    ].join(';');
+    dateEl.textContent = formatDate(new Date());
+
+    inner.appendChild(logo);
+    inner.appendChild(titleEl);
+    inner.appendChild(dateEl);
+
+    var flowers = document.createElement('img');
+    flowers.src = GLOBAL + '/Illustrations/Flowers.svg';
+    flowers.alt = '';
+    flowers.setAttribute('aria-hidden', 'true');
+    flowers.style.cssText = [
+      'position:absolute',
+      'right:120px',
+      'bottom:0',
+      'width:30%',
+      'max-width:320px',
+      'height:auto',
+      'opacity:0.85',
+      'pointer-events:none',
+      'z-index:1',
+    ].join(';');
+
+    header.appendChild(inner);
+    header.appendChild(flowers);
+
+    var bar = document.createElement('div');
+    bar.id = 'lki-quick-links';
+    bar.style.cssText = [
+      'background:#fff',
+      'border-bottom:1px solid #E8E8E6',
+      'padding:0 36px',
+      'display:flex',
+      'align-items:center',
+      'gap:8px',
+      'height:44px',
+      'overflow-x:auto',
+    ].join(';');
+
+    var barLabel = document.createElement('span');
+    barLabel.style.cssText = [
+      'font-family:Inter,sans-serif',
+      'font-size:13px',
+      'font-weight:700',
+      'color:#101E2A',
+      'margin-right:4px',
+      'white-space:nowrap',
+      'letter-spacing:-0.01em',
+      'flex-shrink:0',
+    ].join(';');
+    barLabel.textContent = 'QUICK LINKS';
+    bar.appendChild(barLabel);
+
+    quickLinks.forEach(function (ql) {
+      var a = document.createElement('a');
+      a.href = ql.href || '#';
+      if (ql.href && ql.href !== '#') {
+        a.target = '_blank';
+        a.rel = 'noreferrer';
+      }
+      a.style.cssText = [
+        'display:inline-flex',
+        'align-items:center',
+        'gap:5px',
+        'padding:5px 13px',
+        'border-radius:9999px',
+        'border:1px solid #D8D8D5',
+        'color:#101E2A',
+        'font-size:12px',
+        'font-weight:500',
+        'font-family:Inter,sans-serif',
+        'text-decoration:none',
+        'background:#F6F6F5',
+        'transition:all 140ms',
+        'white-space:nowrap',
+        'flex-shrink:0',
+      ].join(';');
+      a.addEventListener('mouseenter', function () {
+        a.style.background = '#F8E3E9';
+        a.style.color = '#FF6B9D';
+        a.style.borderColor = '#FF6B9D';
+      });
+      a.addEventListener('mouseleave', function () {
+        a.style.background = '#F6F6F5';
+        a.style.color = '#101E2A';
+        a.style.borderColor = '#D8D8D5';
+      });
+
+      var icon = document.createElement('img');
+      icon.src = ICON_BASE + '/' + (ql.icon || '');
+      icon.width = 14;
+      icon.height = 14;
+      icon.alt = '';
+      var fallback = document.createElement('span');
+      fallback.textContent = ql.emoji || '';
+      fallback.style.display = 'none';
+      icon.onerror = function () {
+        icon.style.display = 'none';
+        fallback.style.display = 'inline';
+      };
+
+      a.appendChild(icon);
+      a.appendChild(fallback);
+      a.appendChild(document.createTextNode(ql.label));
+      bar.appendChild(a);
+    });
+
+    var first = document.body.firstChild;
+    if (first) {
+      document.body.insertBefore(bar, first);
+      document.body.insertBefore(header, bar);
+    } else {
+      document.body.appendChild(header);
+      document.body.appendChild(bar);
+    }
+
+    setInterval(function () {
+      var el = document.getElementById('lki-header-date');
+      if (el) el.textContent = formatDate(new Date());
+    }, 60000);
+  };
+}());
+</script>
+
+<div class="page">
+
+  <div class="body">
+
+    <h2 class="section-title">VP, Creative Strategy — Role Summary</h2>
+    <p class="note">The VP, Creative Strategy role is a fractional position, roughly 15 hours a week, covering creative direction across Forge &amp; Spark and client work, ownership of the FS brand and website, and leading the studio's approach to AI in creative workflows. At least 8 to 10 hours a month need to be billable client work, since profitability is the top priority this fiscal year. The role also includes mentoring design contractors, co-designing AI workflows with Bronwyn, and bringing Shannon a quarterly recommendation on which AI tools to adopt, drop, or watch.</p>
+    <div class="priorities">
+      <div class="priorities-label">15 Hours: Priorities Right Now</div>
+      <div class="priority-chip"><span class="priority-num">1</span><span class="name">Hiring — Junior Designer</span></div>
+      <div class="priority-chip"><span class="priority-num">2</span><span class="name">Genus</span></div>
+      <div class="priority-chip"><span class="priority-num">3</span><span class="name">Oliver Form</span></div>
+      <div class="priority-chip"><span class="priority-num">4</span><span class="name">Proposal Design Pass</span></div>
+    </div>
+
+    <h2 class="section-title">Punch List</h2>
+    <div class="punch-list">
+
+      <div class="punch-item is-priority">
+        <h3>F&amp;S - Hiring Junior Designer <span class="priority-tag">Priority 1</span></h3>
+        <p class="goal">Goal: Get a Junior Designer hired and onboarded</p>
+        <p class="note">Hire a Junior Designer. Candidate tracking and applications live in the sheet above (Hiring → Designer &amp; Content Creator 2026 folder in Drive).</p>
+        <ul>
+          <li>Emma: confirmed with Bronwyn, the August Genus standalone package is her paid test ($45/hour). Prepare her for it, then the hybrid fund blog is next. Still need to loop Emma in.</li>
+          <li>Book a time with Anastacia for next week</li>
+          <li>Thank Patricia — let her know she's on the roster for now, not actively moving forward yet</li>
+          <li>Book another time with Alex</li>
+        </ul>
+        <div class="links">
+          <a href="https://docs.google.com/spreadsheets/d/1RhudrYMN3MxliuIOnwpJBmL14vIHIhmWRT-_4U72-fg/edit" target="_blank" rel="noreferrer">Designer &amp; Content Creator Applications 2026 (tracking sheet)</a>
+        </div>
+      </div>
+
+      <div class="punch-item is-priority">
+        <h3>F&amp;S - Proposal Design Pass</h3>
+        <p class="goal">Goal: Quick design pass so Saranne can send the proposal out today</p>
+        <p class="note">Time-sensitive — needed today.</p>
+        <div class="links">
+          <a href="https://docs.google.com/document/d/13wPzRw-tM_XH5MPPSW2wJK-AGoFmodkY8DIINEonNX4/edit?tab=t.0#heading=h.ka2p3ji0ri6g" target="_blank" rel="noreferrer">Proposal Doc</a>
+        </div>
+      </div>
+
+      <div class="punch-item is-priority">
+        <h3>GENUS - Design Roadmap <span class="priority-tag">Priority 2</span></h3>
+        <p class="goal">Goal: Keep pace with the active design queue (Caregiver package, hybrid fund social, August packages)</p>
+        <p class="note">Design elements coming up:</p>
+        <ul>
+          <li>Any adjustments to designs currently in review</li>
+          <li>Emily Le is doing the Caregiver social package design (aiming for EOD) — flag if she needs support</li>
+          <li>August standalone package — coming to design Aug 6th</li>
+          <li>New blog package (blog + social graphics) coming in August — pending an interview date to confirm timing</li>
+        </ul>
+        <div class="links">
+          <a href="https://docs.google.com/document/d/1pEdfIQ1c6rfRHY4XyZzZJExnKquzYxrW-psky1XDplA/edit?pli=1&tab=t.0#heading=h.lc6workiv1fr" target="_blank" rel="noreferrer">Genus Deck</a>
+        </div>
+      </div>
+
+      <div class="punch-item">
+        <h3>F&amp;S - Roadmap &amp; Persona Redesign</h3>
+        <p class="goal">Goal: Reusable roadmap format, plus redone persona cards matching the Genus style</p>
+        <p class="note">Shannon shared the new/updated FS Brand Manifesto (messaging guidelines, service architecture, and FS roadmap) — meant to guide marketing planning, proposals, and keep AI informed on the business going forward.</p>
+        <ul>
+          <li>Pull out the roadmap portion and design it — think about a reusable format, since Genus's and Equinox's roadmaps will also need updating soon</li>
+          <li>Personas have been overhauled (same names, new qualities aligned to business targets) — redo all persona cards in the same format as the recent Genus cards</li>
+        </ul>
+        <div class="links">
+          <a href="https://docs.google.com/document/d/1jcMVrEy-9h_jTgW2hv-QG6eZQBBOelK0ni2PcsoU9io/edit?tab=t.gc93ls4qo8vh#heading=h.52jjk4o4fy6i" target="_blank" rel="noreferrer">FS Brand Manifesto</a>
+        </div>
+      </div>
+
+      <div class="punch-item is-priority">
+        <h3>OLIVER - Form <span class="priority-tag">Priority 3</span></h3>
+        <p class="goal">Goal: Get the prototype online so the client can see what we mean, then refine from there</p>
+        <ul>
+          <li>Upload the form prototype somewhere people can view it</li>
+          <li>Check the SEO recommendations to confirm they're feasible</li>
+        </ul>
+        <div class="links">
+          <a href="https://docs.google.com/document/d/1iDtYDz0Dwnn2FReiWblD7cnIy7bdlJA3812MitQpIiw/edit?tab=t.0#heading=h.lqzg79f5kdsn" target="_blank" rel="noreferrer">Oliver – Form Analysis and Recommendations</a>
+        </div>
+      </div>
+
+      <div class="punch-item">
+        <h3>F&amp;S - AI Research and Development</h3>
+        <p class="goal">Goal: Documented AI workflow per project, standardized AI-assisted process for new proposals, by Sept 30</p>
+        <p class="note">Not urgent, bumped by client work.</p>
+        <ul>
+          <li>Need to figure out what needs to be done first — requires a meeting with Shannon + Bronwyn</li>
+        </ul>
+        <div class="links">
+          <a href="https://docs.google.com/document/d/1S2KSi61J8stCPQ_JHSGccHC1vIvUlvgU2I7n8qNoLbM/edit?tab=t.0" target="_blank" rel="noreferrer">SRED Eligibility</a>
+        </div>
+      </div>
+
+      <div class="punch-item">
+        <h3>LKI Contract</h3>
+        <p class="goal">Goal: Finalize new contract terms with Shannon</p>
+        <div class="links">
+          <a href="https://docs.google.com/document/d/16b_2bFKtWV7vncRq8yGysAx8EislL9LG93XMDAzNA3U/edit?tab=t.0#heading=h.l11ofp608g5v" target="_blank" rel="noreferrer">Contract</a>
+        </div>
+      </div>
+
+      <div class="punch-item">
+        <h3>ALNA</h3>
+        <p class="goal">Goal: — on hold, no active goal right now</p>
+        <p class="status-note">On hold for now.</p>
+      </div>
+
+      <div class="punch-item">
+        <h3>F&amp;S - Website Services / Copy</h3>
+        <p class="goal">Goal: Finish the Content With Purpose framework page design</p>
+        <p class="note">Put a version up today. Services is live on the site — need a few hours to figure out the design of the Content With Purpose framework page.</p>
+        <ul>
+          <li><s>Bug: "Book a Discovery Call" button on the Services page doesn't link anywhere</s> ✓ Done — linked to contact page</li>
+          <li>Low priority (per Shannon): update testimonials — some feel out of date; add Krystal and BCCFP</li>
+        </ul>
+        <div class="links">
+          <a href="https://docs.google.com/document/d/1nYCgJeN0T7m3f_EqYnCWeoJQFM6WB8M1meK_Ljgvld8/edit?tab=t.0#heading=h.1i82fiotw1ue" target="_blank" rel="noreferrer">Services Copy Page (doc)</a>
+          <a href="https://forgeandspark.com/services/" target="_blank" rel="noreferrer">Live Services Page</a>
+          <a href="https://forgeandspark.com/wp-admin/post.php?post=36664&action=elementor" target="_blank" rel="noreferrer">Content With Purpose page (Elementor)</a>
+        </div>
+      </div>
+
+      <div class="punch-item">
+        <h3>F&amp;S - Workshop Deck and Worksheet</h3>
+        <p class="goal">Goal: Finish workshop deck + worksheet design in Google Docs</p>
+        <p class="note">Finish workshop deck and worksheet design in Google Docs.</p>
+        <div class="links">
+          <a href="https://docs.google.com/document/d/1FiiDrav9rzKxcAUIvCR7fQg8TkNLSRqcK9A0pr1x2pE/edit?tab=t.0" target="_blank" rel="noreferrer">Workshop Worksheet</a>
+          <a href="https://docs.google.com/presentation/d/1GdAadTSLffr4UsKaSMoLvUkSCL-u20YPmlTEuWvBUME/edit?slide=id.g3f5b2b40a96_18_0#slide=id.g3f5b2b40a96_18_0" target="_blank" rel="noreferrer">Workshop Deck</a>
+        </div>
+      </div>
+
+      <div class="punch-item">
+        <h3>F&amp;S - Workshop Social Posts</h3>
+        <p class="goal">Goal: Get workshop promo social posts designed by end of week</p>
+        <div class="links">
+          <a href="https://docs.google.com/document/d/1iBFs0yXhttMHoiQA8gDkgpnfe6qhEfJcMn5uMlO-A2w/edit?tab=t.h90el7w6v2cs#bookmark=id.kmllr76god6j" target="_blank" rel="noreferrer">Workshop Social Posts (doc)</a>
+        </div>
+      </div>
+
+      <div class="punch-item">
+        <h3>F&amp;S - Content Marketing</h3>
+        <p class="goal">Goal: Production of August Content (standalone social + blog graphics)</p>
+        <p class="note">Next pieces:</p>
+        <ul>
+          <li>Workshop prep</li>
+          <li>August standalone social</li>
+          <li>August blog graphics (Shannon is drafting it) — next week</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <hr class="dotted-divider">
+
+    <h2 class="section-title">Hours Log</h2>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="2026-07">July 2026</button>
+      <button class="tab-btn" data-tab="2026-08">August 2026</button>
+      <!-- Add a new <button class="tab-btn" data-tab="YYYY-MM">Month Year</button> here for each new month -->
+    </div>
+
+    <div class="tab-panel" id="2026-07" style="display:block;">
+      <table class="hours-table">
+        <thead>
+          <tr><th>Date</th><th>Description</th><th>Hours</th></tr>
+        </thead>
+        <tbody>
+          <tr class="week-header"><td colspan="3">July 2026 (logged before weekly tracking started — left as one chunk)</td></tr>
+          <tr><td>Jul 30</td><td>F&amp;S — Organization of all tasks</td><td>1</td></tr>
+          <tr><td>Jul 30</td><td>GENUS — Find better featured image for hybrid blog</td><td>0.5</td></tr>
+          <tr><td>Jul 30</td><td>OLIVER — Implemented form changes from Lisa and Sonam</td><td>0.5</td></tr>
+          <tr><td>Jul 30</td><td>OLIVER — Building the prototype</td><td>1</td></tr>
+          <tr><td>Jul 30</td><td>F&amp;S Website — link added to services button</td><td>0.25</td></tr>
+          <tr><td>Jul 30</td><td>F&amp;S — Hiring</td><td>1</td></tr>
+          <tr><td>Jul 29</td><td>F&amp;S Content Marketing — Services page + Content With Purpose framework</td><td>2</td></tr>
+          <tr><td>Jul 29</td><td>OLIVER — Form (analysis/recommendations)</td><td>2</td></tr>
+          <tr><td>Jul 30</td><td>F&amp;S — Hiring</td><td>1</td></tr>
+          <tr class="week-total"><td colspan="2">July chunk subtotal</td><td>9.25</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><td colspan="2">Total</td><td>9.25</td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="tab-panel" id="2026-08" style="display:none;">
+      <table class="hours-table">
+        <thead>
+          <tr><th>Date</th><th>Description</th><th>Hours</th></tr>
+        </thead>
+        <tbody>
+          <tr class="week-header"><td colspan="3">Week of Aug 3 – Aug 9</td></tr>
+          <tr><td>Aug 4</td><td>F&amp;S — Hiring: organizing hiring strategy and thinking through next steps (additional)</td><td>1</td></tr>
+          <tr class="week-total"><td colspan="2">Week subtotal</td><td>1</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><td colspan="2">Total</td><td>1</td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- Add a new <div class="tab-panel" id="YYYY-MM" style="display:none;">...</div> here for each new month -->
+
+  </div>
+</div>
+
+<script>
+  renderLKIHeader({
+    title: 'Hours Tracker',
+    quickLinks: [
+      { label: 'Project Status', icon: 'chart-line-light.svg', emoji: '📊', href: 'https://forge-spark.github.io/brand-design-guidelines/project-status.html' },
+      { label: 'Design Guidelines', icon: 'palette-light.svg', emoji: '🎨', href: 'https://forge-spark.github.io/brand-design-guidelines/' },
+      { label: 'LKI Workspace for FS', icon: 'folder-light.svg', emoji: '📁', href: 'https://drive.google.com/drive/u/0/folders/1vJzIdDi1o5MKZZ7t5xdy1z18Ku8Qi-Li' }
+    ]
+  });
+
+  // Hide the header date entirely for this tracker
+  (function () {
+    function hideDate() {
+      var el = document.getElementById('lki-header-date');
+      if (el) el.style.display = 'none';
+    }
+    hideDate();
+    setInterval(hideDate, 1000);
+  }());
+
+  document.querySelectorAll('.tab-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.remove('active'); });
+      document.querySelectorAll('.tab-panel').forEach(function (p) { p.style.display = 'none'; });
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).style.display = 'block';
+    });
+  });
+</script>
+
+</body>
+</html>
