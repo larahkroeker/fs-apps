@@ -162,6 +162,11 @@
     .scope-item:last-child { border-bottom: none; margin-bottom: 0; }
     .scope-item h3 { font-size: 0.95rem; font-weight: 700; font-family: var(--font-display); margin-bottom: 4px; }
     .scope-item p { color: var(--fg-muted); font-size: 0.88rem; }
+    .scope-item a, .why a {
+      color: var(--fs-dark); font-weight: 600;
+      text-decoration: underline; text-underline-offset: 2px;
+    }
+    .scope-item a:hover, .why a:hover { color: var(--fs-cta-dark); }
 
     .badge {
       display: inline-block;
@@ -524,24 +529,20 @@
 
     <!-- APPS -->
     <div class="phase-block">
-      <div class="phase-title">Internal Apps &amp; Tools &nbsp;<span class="badge badge-active">&#8635; In Progress</span></div>
-      <div class="phase-sub">Standalone HTML tools for studio operations, published for PM visibility.</div>
+      <div class="phase-title">Apps &amp; Live Deliverables &nbsp;<span class="badge badge-active">&#8635; In Progress</span></div>
+      <div class="phase-sub">Hand-built pages a client or the team opens in a browser, rather than a file sent over. The forward-looking note above, already in practice.</div>
 
       <div class="scope-item">
         <h3>FS Time Tracker</h3>
-        <p>Live and in daily use. Holds the punch list, ongoing projects, and the hours log. Published so PMs can see what is on the plate.</p>
+        <p>Live and in daily use. Holds the priorities, punch list, and hours log, published so the team can see what is on the plate without asking. <a href="https://larahkroeker.github.io/fs-apps/" target="_blank" rel="noreferrer">View live</a></p>
       </div>
       <div class="scope-item">
-        <h3>FS Daily Dashboard</h3>
-        <p>Source saved at <code>Apps/Shared with Claude/FS Daily Dashboard/index.html</code>. Rebuild pending.</p>
+        <h3>Krystal Content Calendar</h3>
+        <p>Client-facing content calendar, built as a live page and published for the client to open directly. <a href="https://forge-spark.github.io/krystal-calendar/" target="_blank" rel="noreferrer">View live</a></p>
       </div>
       <div class="scope-item">
-        <h3>Active Client Dashboard</h3>
-        <p>Artifact exists. Source not yet saved to Drive.</p>
-      </div>
-      <div class="scope-item">
-        <h3>FS Login Tracker</h3>
-        <p>Artifact exists. Source not yet saved to Drive.</p>
+        <h3>Oliver Form Prototype</h3>
+        <p>A working prototype built to show the client the recommended form experience instead of describing it in a document. Sent for client review. <a href="https://larahkroeker.github.io/fs-apps/clients/OLIVER-form-prototype.html" target="_blank" rel="noreferrer">View live</a></p>
       </div>
     </div>
 
@@ -558,8 +559,6 @@
       <li><span class="task-tag">Website</span>Write <code>FS-migration-plan.md</code>, the full off-Elementor plan</li>
       <li><span class="task-tag">Website</span>Write <code>FS-workflow.md</code>, the daily build and deploy loop</li>
       <li><span class="task-tag">Security</span>Rotate an exposed credential found during the file audit (location and details in Drive)</li>
-      <li><span class="task-tag">Apps</span>Save Active Client Dashboard and FS Login Tracker sources to Drive</li>
-      <li><span class="task-tag">Apps</span>Rebuild FS Daily Dashboard</li>
     </ul>
 
     <!-- LINKS BAR -->
