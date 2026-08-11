@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forge &amp; Spark — Website Updates</title>
+  <link rel="stylesheet" href="../Design Guidelines/colors_and_type.css">
+  <style>
+    :root {
+      --accent-light: var(--fs-yellow-wash);
+      --success-bg: #e8f3e8;
+      --success-text: var(--fs-green-deep);
+      --success-border: #b4d6b4;
+      --warning-bg: var(--fs-cta-light);
+      --warning-text: var(--fs-cta-dark);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); background: var(--bg); color: var(--fg); font-size: 15px; line-height: 1.7; }
+    .page { max-width: 780px; margin: 40px auto 80px; background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+
+    .header { background: var(--fs-dark); color: var(--fs-neutral); padding: 48px 48px 40px; }
+    .header h1 { font-family: var(--font-display); font-size: 2.8rem; line-height: 1.05; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 6px; color: var(--fs-yellow); }
+    .header .brand { font-family: var(--font-display); font-size: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fs-blue-light); margin-bottom: 12px; }
+    .header .sub { opacity: 0.65; font-size: 0.9rem; font-family: var(--font-sans); }
+
+    .meta-row { display: flex; gap: 40px; padding: 20px 48px; background: var(--accent-light); border-bottom: 1px solid var(--border); font-family: var(--font-sans); font-size: 0.85rem; flex-wrap: wrap; }
+    .meta-row div { display: flex; flex-direction: column; gap: 2px; }
+    .meta-row .label { color: var(--fg-muted); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.06em; font-family: var(--font-display); font-weight: 700; }
+    .meta-row .value { color: var(--fg); font-weight: 600; }
+    .meta-row a { color: var(--fs-dark); }
+
+    .body { padding: 40px 48px; }
+    .intro { color: var(--fg-muted); font-size: 0.95rem; margin-bottom: 36px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+    h2 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fs-dark); font-family: var(--font-display); font-weight: 800; margin-bottom: 20px; }
+
+    /* Rationale section — scoped so it does not disturb the page's other h2/h3 styles */
+    .why { margin-bottom: 44px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+    .why h2 {
+      font-family: var(--font-display);
+      font-size: 1.9rem;
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      text-transform: none;
+      color: var(--fs-dark);
+      margin-bottom: 16px;
+    }
+    .why h3 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--fs-dark);
+      margin: 28px 0 10px;
+    }
+    .why p { color: var(--fg-muted); font-size: 0.92rem; margin-bottom: 12px; }
+    .why p:last-child { margin-bottom: 0; }
+    .why p .lead-in { color: var(--fs-dark); font-weight: 700; }
+    .why ul { margin: 0 0 14px; padding-left: 20px; }
+    .why li { color: var(--fg-muted); font-size: 0.92rem; margin-bottom: 5px; list-style: disc; }
+    .why-note {
+      font-style: italic;
+      margin-top: 22px !important;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .phase-block { margin-bottom: 48px; }
+    .phase-title {
+      font-family: var(--font-display);
+      font-size: 1.9rem;
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--fs-dark);
+      margin-bottom: 8px;
+    }
+    .phase-title .badge { vertical-align: 0.45em; }
+    .phase-sub { font-family: var(--font-sans); font-size: 0.82rem; color: var(--fg-muted); margin-bottom: 20px; }
+    .scope-item { margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+    .scope-item:last-child { border-bottom: none; margin-bottom: 0; }
+    .scope-item h3 { font-size: 0.95rem; font-weight: 700; font-family: var(--font-display); margin-bottom: 4px; }
+    .scope-item p { color: var(--fg-muted); font-size: 0.88rem; }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .badge-done    { background: var(--success-bg); color: var(--success-text); }
+    .badge-active  { background: var(--warning-bg); color: var(--warning-text); }
+    .badge-pending { background: var(--fs-grey-light); color: var(--fg-muted); }
+
+    .timeline-table { width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-size: 0.88rem; margin-bottom: 40px; }
+    .timeline-table td { padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .timeline-table td:first-child { font-weight: 700; white-space: nowrap; width: 160px; }
+    .timeline-table tr:last-child td { border-bottom: none; }
+
+    .tasks-list { list-style: none; }
+    .tasks-list li { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; display: flex; gap: 10px; }
+    .tasks-list li:last-child { border-bottom: none; }
+    .tasks-list .task-tag { font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--fg-muted); padding-top: 2px; white-space: nowrap; }
+
+    /* --- added Aug 11, 2026 --- */
+    .tree {
+      background: var(--fs-dark);
+      color: var(--fs-neutral);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.78rem;
+      line-height: 1.75;
+      padding: 22px 24px;
+      border-radius: var(--radius-sm);
+      overflow-x: auto;
+      margin-bottom: 24px;
+      white-space: pre;
+    }
+    .tree .miss { color: var(--fs-cta-light); }
+    .tree .ok   { color: var(--fs-yellow); }
+
+    .gap-table { width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-size: 0.84rem; margin-bottom: 40px; }
+    .gap-table th {
+      text-align: left; padding: 9px 14px;
+      font-family: var(--font-display); font-size: 0.7rem;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--fg-muted); border-bottom: 2px solid var(--border);
+    }
+    .gap-table td { padding: 9px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .gap-table tr:last-child td { border-bottom: none; }
+    .gap-table code { font-size: 0.92em; }
+    .state-ok   { color: var(--success-text); font-weight: 700; white-space: nowrap; }
+    .state-miss { color: var(--warning-text); font-weight: 700; white-space: nowrap; }
+
+    .step { display: flex; gap: 16px; margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+    .step:last-child { border-bottom: none; margin-bottom: 0; }
+    .step-num {
+      flex: 0 0 30px; height: 30px; border-radius: 50%;
+      background: var(--fs-yellow); color: var(--fs-dark);
+      font-family: var(--font-display); font-weight: 800; font-size: 0.85rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step-num.is-done { background: var(--success-bg); color: var(--success-text); }
+    .step-num.is-next { background: var(--fs-cta, #d64d7a); color: #fff; }
+    .step-body h3 { font-size: 0.95rem; font-weight: 700; font-family: var(--font-display); margin-bottom: 4px; }
+    .step-body p { color: var(--fg-muted); font-size: 0.88rem; }
+
+    .callout {
+      background: var(--warning-bg); color: var(--warning-text);
+      border-radius: var(--radius-sm); padding: 16px 20px;
+      font-size: 0.86rem; margin-bottom: 32px;
+    }
+    .callout strong { font-family: var(--font-display); }
+
+    .links-bar { background: var(--fs-dark); margin: 60px -48px -40px; padding: 24px 48px; display: flex; gap: 24px; flex-wrap: wrap; align-items: center; }
+    .links-bar a { font-family: var(--font-display); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--fs-yellow); text-decoration: none; }
+    .links-bar a:hover { text-decoration: underline; }
+    .links-bar .sep { color: var(--fs-blue-light); font-size: 0.7rem; }
+
+    @media (max-width: 640px) {
+      .header, .meta-row, .body { padding-left: 24px; padding-right: 24px; }
+      .links-bar { margin-left: -24px; margin-right: -24px; padding-left: 24px; padding-right: 24px; }
+      .meta-row { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="brand">Forge &amp; Spark</div>
+    <h1>Website Updates</h1>
+    <div class="sub">Prepared by Lara Kroeker Interactive &nbsp;·&nbsp; Updated August 11, 2026</div>
+  </div>
+
+  <div class="meta-row">
+    <div><span class="label">Brand</span><span class="value">Forge &amp; Spark</span></div>
+    <div><span class="label">Site</span><span class="value"><a href="https://forgeandspark.com">forgeandspark.com</a></span></div>
+    <div><span class="label">Hosting</span><span class="value">Kinsta</span></div>
+    <div><span class="label">Theme</span><span class="value"><code>fs-theme</code> (standalone)</span></div>
+    <div><span class="label">Last Updated</span><span class="value">August 11, 2026</span></div>
+  </div>
+
+  <div class="body">
+
+    <!-- WHY WE'RE REBUILDING -->
+    <section class="why">
+      <h2>Why Rebuild the Forge &amp; Spark Website</h2>
+
+      <p>The Forge &amp; Spark website currently runs on Elementor, a page builder that stores page layouts as encoded data inside the WordPress database. That works well for visual editing, but it creates a significant limitation: the structure of the website is essentially unreadable to anything outside Elementor. That puts a ceiling on what AI and other tools can understand, search, and improve across the site.</p>
+
+      <h3>What stays the same</h3>
+
+      <p>The foundation of the website does not change.</p>
+
+      <ul>
+        <li>The site stays on WordPress</li>
+        <li>The existing admin and logins stay the same</li>
+        <li>Pages, posts, images, and other content remain in WordPress</li>
+        <li>The team will continue managing content through the WordPress admin</li>
+        <li>No one needs to edit code to update the site</li>
+      </ul>
+
+      <p>The change is what sits underneath the content.</p>
+
+      <p>Instead of Elementor controlling the page layout, editable content will be managed through ACF fields. These appear as clearly labelled fields in the WordPress editor, so updating copy, images, and other content remains straightforward and familiar.</p>
+
+      <h3>What changes</h3>
+
+      <p>The page layouts will be rebuilt using lightweight, hand-built PHP templates rather than Elementor. This means the underlying structure becomes plain, readable text instead of encoded builder data.</p>
+
+      <p>That is important because it makes the entire website understandable to AI agents and other tools. Instead of having to work through individual pages visually, an AI agent can understand and work across the site as a whole.</p>
+
+      <p>For example, it could:</p>
+
+      <ul>
+        <li>Audit every page for SEO opportunities</li>
+        <li>Check heading structures and accessibility issues</li>
+        <li>Identify missing or inconsistent alt text</li>
+        <li>Find messaging that has drifted from the brand framework</li>
+        <li>Identify inconsistencies across pages</li>
+        <li>Make systematic improvements across the site rather than working page by page</li>
+      </ul>
+
+      <p>In other words, instead of asking someone to click through the site and make changes manually, we can increasingly ask the site to be reviewed, analyzed, and improved as a system.</p>
+
+      <h3>Why this is worth doing</h3>
+
+      <p>There are benefits beyond AI.</p>
+
+      <p><span class="lead-in">Performance:</span> Leaner templates eliminate the additional code and processing associated with a page builder, which can improve page speed and Core Web Vitals.</p>
+
+      <p><span class="lead-in">Stability:</span> Removing the page builder also removes a major software dependency and the class of compatibility and layout issues that can come with builder updates.</p>
+
+      <p><span class="lead-in">Maintainability:</span> The site&rsquo;s structure becomes simpler, more transparent, and easier to understand and maintain over time.</p>
+
+      <p><span class="lead-in">Future flexibility:</span> Most importantly, the website is no longer dependent on a proprietary visual builder to understand its own structure. That gives us much more flexibility as AI-driven tools and workflows continue to evolve.</p>
+
+      <h3>A proven approach</h3>
+
+      <p>This is not an experimental rebuild. The same approach has already been implemented across five other websites, with two currently fully live.</p>
+
+      <p>For Forge &amp; Spark, we are adapting and extending a proven pattern rather than starting from scratch.</p>
+
+      <p>This document will serve as the ongoing rebuild plan. It will be updated as decisions are made and components are developed, giving Forge &amp; Spark an opportunity to review, provide feedback, and approve the work as we move through the rebuild.</p>
+
+      <p class="why-note">Worth noting that regardless of where the architecture decision lands, the groundwork is already done and cost nothing to put in place. A staging site is set up and running, separate from the live site, so everything can be built and reviewed there before anything is promoted. The Novamira plugin that connects a WordPress site to AI tooling is installed and tested, and I use it heavily across five other sites. That is what the Foundation row below is describing: repo connected, deploy pipeline green, staging live, MCP connected, architecture recommended and awaiting sign-off.</p>
+    </section>
+
+    <!-- WHERE THIS STANDS -->
+    <h2>Where This Stands</h2>
+    <table class="timeline-table">
+      <tbody>
+        <tr>
+          <td style="color:var(--success-text);">&#10003; Foundation</td>
+          <td>Complete. Repo connected, deploy pipeline green, staging live, MCP connected, architecture recommended and awaiting sign-off (June to August 2026)</td>
+        </tr>
+        <tr>
+          <td style="color:var(--warning-text);">&#8635; Folder setup</td>
+          <td>In progress. Naming brought in line with the workspace standard Aug 11. The theme clone is the remaining gap</td>
+        </tr>
+        <tr>
+          <td style="color:var(--fg-muted);">Website build</td>
+          <td>Not started. Blocked until the theme files are mirrored into Drive</td>
+        </tr>
+        <tr>
+          <td style="color:var(--warning-text);">&#8635; Apps &amp; tools</td>
+          <td>In progress. Time tracker live; three dashboards at various stages</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <strong>The one thing blocking everything else.</strong> The theme code lives only in the
+      private <code>Forge-Spark/fs-website</code> repo, not in this Drive folder. Every other project
+      keeps its theme at <code>Website/{prefix}-theme/</code>. Until <code>fs-theme</code> is cloned
+      here, no working session can build against it.
+    </div>
+
+    <!-- FOUNDATION -->
+    <div class="phase-block">
+      <div class="phase-title">Foundation &nbsp;<span class="badge badge-done">&#10003; Complete</span></div>
+      <div class="phase-sub">Repo, deploy pipeline, staging, MCP connection, and the recommended architecture.</div>
+
+      <div class="scope-item">
+        <h3>GitHub Repository</h3>
+        <p>Private repo <code>Forge-Spark/fs-website</code> created and connected.</p>
+      </div>
+      <div class="scope-item">
+        <h3>Automated Deploy Pipeline</h3>
+        <p>GitHub Actions auto-deploys theme changes to Kinsta staging on every push. All 5 <code>KINSTA_*</code> secrets configured and validated. Deploy confirmed green.</p>
+      </div>
+      <div class="scope-item">
+        <h3>Kinsta Staging</h3>
+        <p>Theme activated on staging, pipeline validated. Push to live is a manual step in MyKinsta.</p>
+      </div>
+      <div class="scope-item">
+        <h3>Novamira MCP</h3>
+        <p>Connected and validated as <code>novamira-fs</code> on June 4, 2026. WordPress operations go through this connection.</p>
+      </div>
+      <div class="scope-item">
+        <h3>Recommended Architecture: Standalone Theme, No Page Builder</h3>
+        <p>The suggestion on the table is to take Elementor out of the build entirely rather than run a hybrid setup, with pages shipping as PHP templates and ACF-driven content, on a standalone <code>fs-theme</code> rather than a child theme. WordPress stays exactly where it is: only the page builder comes out, and ACF keeps every piece of editable content in the admin where it is now. This is a recommendation for Forge &amp; Spark to approve, not a settled decision.</p>
+      </div>
+    </div>
+
+    <!-- FOLDER STRUCTURE -->
+    <h2>Folder Structure</h2>
+    <p style="color:var(--fg-muted); font-size:0.9rem; margin-bottom:20px;">
+      The standard structure, ground-truthed against the sites already migrated. Yellow is in
+      place, pink is still missing.
+    </p>
+
+<pre class="tree">Forge &amp; Spark Website folder structure/
+├── <span class="ok">FS-folder-structure-and-rules.md</span>
+├── <span class="ok">Apps/</span>
+│   ├── <span class="ok">F&amp;S-time-tracker.html</span>      punch list &amp; hours log
+│   └── <span class="ok">FS-website-updates.html</span>     this page
+├── <span class="ok">Content/</span>
+├── <span class="ok">Clients/</span>                        FS-only
+├── <span class="ok">Design Guidelines/</span>
+│   ├── <span class="ok">FS-design-guidelines-status.md</span>
+│   ├── <span class="ok">FS-design-guidelines.html</span>
+│   └── <span class="ok">colors_and_type.css</span>
+├── <span class="ok">Global Assets/</span>                  FS-only
+└── <span class="ok">Website/</span>
+    ├── <span class="ok">FS-website-status.md</span>
+    ├── <span class="miss">FS-migration-plan.md</span>        not written
+    ├── <span class="miss">FS-workflow.md</span>              not written
+    ├── <span class="miss">fs-theme/</span>                   not cloned
+    └── <span class="ok">Services/</span></pre>
+
+    <table class="gap-table">
+      <thead>
+        <tr><th>Item</th><th>State</th><th>Note</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>fs-theme/</code></td>
+          <td class="state-miss">Missing</td>
+          <td>Clone of <code>Forge-Spark/fs-website</code>. The blocker.</td>
+        </tr>
+        <tr>
+          <td><code>FS-migration-plan.md</code></td>
+          <td class="state-miss">Missing</td>
+          <td>The off-Elementor plan: rules, structure, phases, open decisions</td>
+        </tr>
+        <tr>
+          <td><code>FS-workflow.md</code></td>
+          <td class="state-miss">Missing</td>
+          <td>The daily build and deploy loop</td>
+        </tr>
+        <tr>
+          <td>Doc naming</td>
+          <td class="state-ok">Done</td>
+          <td>Four files renamed to the <code>FS-</code> convention on Aug 11</td>
+        </tr>
+        <tr>
+          <td><code>Apps/</code> and <code>Content/</code></td>
+          <td class="state-ok">Done</td>
+          <td>Created Aug 11 to match the standard</td>
+        </tr>
+        <tr>
+          <td>Published HTML names</td>
+          <td class="state-miss">Open</td>
+          <td>This page was renamed to <code>FS-website-updates.html</code> on Aug 11. <code>F&amp;S-time-tracker.html</code> is still a live URL, so its rename is held pending a decision</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- MIGRATION -->
+    <div class="phase-block">
+      <div class="phase-title">The Migration, Step by Step</div>
+      <div class="phase-sub">Same shape as the migrations already completed. Each step is done and checked before the next one starts.</div>
+
+      <div class="step">
+        <div class="step-num is-done">&#10003;</div>
+        <div class="step-body">
+          <h3>0 &nbsp;Read what exists</h3>
+          <p>Audit the live site, plugins in use, and what Elementor is actually doing on each page. Partly done: the three Elementor gotchas from earlier migrations are already recorded.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num is-next">1</div>
+        <div class="step-body">
+          <h3>1 &nbsp;Clone the theme into Drive</h3>
+          <p>Clone <code>Forge-Spark/fs-website</code> into <code>Website/fs-theme/</code>. Nothing else can start until this exists locally. This is the next action.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>2 &nbsp;Tokens</h3>
+          <p>Confirm <code>colors_and_type.css</code> covers everything Elementor's Default Kit currently supplies. Elementor cannot be switched off until it does.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>3 &nbsp;Scaffold</h3>
+          <p>Stand up <code>fs-theme</code> as a standalone theme: <code>style.css</code> header with no <code>Template:</code> line, <code>index.php</code>, <code>functions.php</code>, <code>theme.json</code> carrying contentSize and wideSize, theme supports declared explicitly, and nav menus registered.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>4 &nbsp;Build</h3>
+          <p>First task is <code>header.php</code> and <code>footer.php</code>, then one test page with the menu working. Assess before going further. Then homepage, services, about, contact, and the Content With Purpose framework page.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h3>5 &nbsp;Verify</h3>
+          <p>Diff computed styles against a baseline captured before the switch. Screenshots are not sufficient, proven on an earlier migration. Walk every page type.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <h3>6 &nbsp;Switch</h3>
+          <p>Update <code>KINSTA_THEME_PATH</code> to point at <code>fs-theme</code> <em>before</em> activating it. On an earlier migration the theme was activated first and the next deploy silently wrote to the dead directory.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-body">
+          <h3>7 &nbsp;Live</h3>
+          <p>Manual push to live via MyKinsta, then verify on the live site in order. Rollback is <code>git revert</code>, not a theme switch.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHY FS IS THE EASY ONE -->
+    <h2>Why FS Is the Straightforward One</h2>
+    <table class="gap-table">
+      <thead>
+        <tr><th>&nbsp;</th><th>A complex migration</th><th>Forge &amp; Spark</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Site type</td><td>Live, revenue-bearing, client-owned</td><td>Studio-owned marketing site</td></tr>
+        <tr><td>Who edits content</td><td>Two client editors</td><td>Lara only</td></tr>
+        <tr><td>E-commerce</td><td>Live store, real checkout</td><td>None</td></tr>
+        <tr><td>LMS</td><td>Course platform, 17 courses, 162 lessons</td><td>None</td></tr>
+        <tr><td>Templates to port</td><td>16 plus e-commerce overrides</td><td>None yet, nothing built</td></tr>
+        <tr><td>Risk if it breaks</td><td>Lost orders and enrollments</td><td>Contained</td></tr>
+      </tbody>
+    </table>
+
+    <!-- APPS -->
+    <div class="phase-block">
+      <div class="phase-title">Internal Apps &amp; Tools &nbsp;<span class="badge badge-active">&#8635; In Progress</span></div>
+      <div class="phase-sub">Standalone HTML tools for studio operations, published for PM visibility.</div>
+
+      <div class="scope-item">
+        <h3>FS Time Tracker</h3>
+        <p>Live and in daily use. Holds the punch list, ongoing projects, and the hours log. Published so PMs can see what is on the plate.</p>
+      </div>
+      <div class="scope-item">
+        <h3>FS Daily Dashboard</h3>
+        <p>Source saved at <code>Apps/Shared with Claude/FS Daily Dashboard/index.html</code>. Rebuild pending.</p>
+      </div>
+      <div class="scope-item">
+        <h3>Active Client Dashboard</h3>
+        <p>Artifact exists. Source not yet saved to Drive.</p>
+      </div>
+      <div class="scope-item">
+        <h3>FS Login Tracker</h3>
+        <p>Artifact exists. Source not yet saved to Drive.</p>
+      </div>
+    </div>
+
+    <!-- OPEN DECISIONS -->
+    <h2>Open Decisions</h2>
+    <ul class="tasks-list">
+      <li><span class="task-tag">Naming</span>Whether to rename <code>F&amp;S-time-tracker.html</code> to <code>FS-time-tracker.html</code> and accept the changed published URL. The ampersand has to be escaped as <code>%26</code> in every link</li>
+      <li><span class="task-tag">Status</span>Whether <code>FS-website-status.md</code> or this page is the source of truth. Two records of the same status will drift</li>
+      <li><span class="task-tag">Structure</span>Whether <code>Clients/</code> stays in the FS folder or moves, since no other project has one</li>
+    </ul>
+
+    <!-- OPEN TASKS -->
+    <h2>Open Tasks</h2>
+    <ul class="tasks-list">
+      <li><span class="task-tag">Website</span>Clone <code>Forge-Spark/fs-website</code> into <code>Website/fs-theme/</code></li>
+      <li><span class="task-tag">Website</span>Write <code>FS-migration-plan.md</code>, the full off-Elementor plan</li>
+      <li><span class="task-tag">Website</span>Write <code>FS-workflow.md</code>, the daily build and deploy loop</li>
+      <li><span class="task-tag">Security</span>Rotate an exposed credential found during the file audit (location and details in Drive)</li>
+      <li><span class="task-tag">Apps</span>Save Active Client Dashboard and FS Login Tracker sources to Drive</li>
+      <li><span class="task-tag">Apps</span>Rebuild FS Daily Dashboard</li>
+    </ul>
+
+    <!-- LINKS BAR -->
+    <div class="links-bar">
+      <a href="../Design Guidelines/FS-design-guidelines.html">Design Guidelines</a>
+      <span class="sep">&middot;</span>
+      <a href="F&amp;S-time-tracker.html">Time Tracker</a>
+      <span class="sep">&middot;</span>
+      <a href="https://forgeandspark.com">forgeandspark.com</a>
+      <span class="sep">&middot;</span>
+      <a href="https://github.com/Forge-Spark/fs-website">GitHub: fs-website</a>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
