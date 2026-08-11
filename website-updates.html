@@ -4,8 +4,90 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Forge &amp; Spark — Website Updates</title>
-  <link rel="stylesheet" href="../Design Guidelines/colors_and_type.css">
   <style>
+    /* ============================================================
+       Forge and Spark — Colors & Type (inlined verbatim from
+       Design Guidelines/colors_and_type.css, which stays the source
+       of truth. Inlined because this page publishes to GitHub Pages,
+       where a relative <link> outside the published folder 404s.
+       Same reason the time tracker inlines its tokens.
+       To update: re-copy from colors_and_type.css, do not hand-edit.)
+       ============================================================ */
+    @import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800&family=Archivo:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+    :root {
+      --fs-yellow:        #F3DB57;
+      --fs-yellow-dark:   #E0C636;
+      --fs-yellow-wash:   #FBF3CC;
+
+      --fs-dark:          #1F455C;
+      --fs-dark-deeper:   #142F40;
+      --fs-blue-light:    #799FB5;
+      --fs-blue-wash:     #E4ECF1;
+
+      --fs-neutral:       #F6F6F5;
+      --fs-white:         #FFFFFF;
+      --fs-grey-light:    #F0F0F0;
+
+      --fs-cta:           #FC9D5D;
+      --fs-cta-dark:      #ED7F35;
+      --fs-cta-light:     #FDE6D5;
+
+      --fs-green:         #B4D670;
+      --fs-green-deep:    #5B8C5A;
+      --fs-pink:          #F2A4B3;
+
+      --fs-grey-1:        #6B7E89;
+      --fs-grey-2:        #B8C2C8;
+      --fs-grey-3:        #DDE2E5;
+
+      --bg:               var(--fs-neutral);
+      --bg-raised:        var(--fs-white);
+      --bg-inverse:       var(--fs-dark);
+      --fg:               var(--fs-dark);
+      --fg-muted:         var(--fs-grey-1);
+      --fg-on-dark:       var(--fs-neutral);
+      --accent:           var(--fs-yellow);
+      --cta:              var(--fs-cta);
+      --cta-hover:        var(--fs-cta-dark);
+      --border:           var(--fs-grey-3);
+      --border-strong:    var(--fs-grey-2);
+
+      --font-display: "Barlow Condensed", "Oswald", "Arial Narrow", sans-serif;
+      --font-sans:    "Archivo", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+      --font-mono:    "JetBrains Mono", "Menlo", ui-monospace, monospace;
+
+      --fw-regular:   400;
+      --fw-medium:    500;
+      --fw-semibold:  600;
+      --fw-bold:      700;
+      --fw-black:     800;
+
+      --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+      --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+      --sp-9: 80px; --sp-10: 120px;
+
+      --layout-max: 1280px;
+      --prose-max:  62ch;
+
+      --radius-sm:    6px;
+      --radius-input: 8px;
+      --radius-md:   12px;
+      --radius-lg:   20px;
+      --radius-pill: 999px;
+
+      --shadow-xs: 0 1px 2px rgba(31,69,92,0.06), 0 6px 12px rgba(31,69,92,0.04);
+      --shadow-md: 0 8px 24px rgba(31,69,92,0.14), 0 1px 2px rgba(31,69,92,0.08);
+      --shadow-inset-hairline: inset 0 -1px 0 rgba(31,69,92,0.10);
+      --shadow-focus: 0 0 0 3px rgba(252,157,93,0.28);
+
+      --ease-standard: cubic-bezier(0.32, 0.72, 0.24, 1);
+      --dur-fast: 140ms;
+      --dur-std:  220ms;
+      --dur-slow: 300ms;
+    }
+    /* ==================== end brand tokens ==================== */
+
     :root {
       --accent-light: var(--fs-yellow-wash);
       --success-bg: #e8f3e8;
