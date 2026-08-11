@@ -530,6 +530,37 @@
       </div>
 
       <div class="punch-item">
+        <h3>F&amp;S - Rotate Exposed Credential</h3>
+        <p class="goal">Goal: Rotate the credential and make sure it can never reach a public repo</p>
+        <p class="status-note">Found Aug 8, 2026. Five minute job. The exact location is deliberately not written here, since this page is published publicly. Details are in Drive.</p>
+        <ul>
+          <li>Revoke the existing credential in GitHub settings</li>
+          <li>Add a <code>.gitignore</code> so the config file holding it can never be committed</li>
+          <li>Issue a replacement and put it back in the now-ignored config file</li>
+        </ul>
+      </div>
+
+      <div class="punch-item">
+        <h3>F&amp;S - Folder and File Naming Cleanup</h3>
+        <p class="goal">Goal: Finish bringing the FS folder in line with the naming convention</p>
+        <p class="note">Most of it is done as of Aug 11: the four status and rules docs renamed to the <code>FS-</code> convention, <code>Apps/</code> and <code>Content/</code> created, and <code>project-status.html</code> renamed to <code>FS-website-updates.html</code>. What is left is the handful with a catch. Convention: folders Title Case with spaces, files <code>FS-lowercase-hyphenated</code>, and <code>colors_and_type.css</code> keeps its name everywhere.</p>
+        <p class="note"><strong>Needs a decision:</strong></p>
+        <ul>
+          <li><code>F&amp;S-time-tracker.html</code> to <code>FS-time-tracker.html</code>. Held because this is the live published URL, and the ampersand has to be escaped as <code>%26</code> in every link that points here</li>
+          <li><code>krystal-calendar/CLAUDE.md</code> breaks the no-generic-CLAUDE.md rule and is committed to a public repo, so it needs a <code>git mv</code>, commit and push rather than a local rename</li>
+          <li>Whether the archive folder moves up to the FS root, since it holds old proposal templates rather than client work</li>
+        </ul>
+        <p class="note"><strong>Straightforward when there is a minute:</strong></p>
+        <ul>
+          <li><code>krystal-calendar/</code> folder to <code>Krystal Calendar/</code>. Safe, because the push script resolves its own directory and the repo name comes from its config file, not the folder name</li>
+          <li><code>Archive (Do NOT Read)/</code> to <code>_Archives (DO NOT READ)/</code>, so it sorts to the top like the other brands</li>
+          <li><code>Oliver-Form-Analysis-Recommendations.docx</code> to <code>OLIVER-form-analysis-recommendations.docx</code></li>
+          <li><code>Website/Services/</code>: <code>fs-layer-headers.html</code> and <code>content-with-purpose-redesign.html</code> to the <code>FS-</code> prefix. The six <code>layer-*.png</code> exports too if worth the churn, nothing references them in code</li>
+        </ul>
+        <p class="status-note">Also found in the audit and still unfixed: <code>push-to-github.py</code> reads a filename that does not exist, so it cannot run as written.</p>
+      </div>
+
+      <div class="punch-item">
         <h3>F&amp;S - Proposal Design Pass</h3>
         <p class="goal">COMPLETE: Design pass done so Saranne can send the proposal but need to think about this template as reusable.</p>
         <p class="note">Still want to keep working on this template. Need to figure out a repeatable workflow for proposals. Pinning this doc to reference and iterate on next time.</p>
