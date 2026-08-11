@@ -148,7 +148,7 @@
     .step-body p { color: var(--fg-muted); font-size: 0.88rem; }
 
     .callout {
-      background: var(--warning-bg); color: var(--warning-text);
+      background: var(--accent-light); color: var(--fs-dark);
       border-radius: var(--radius-sm); padding: 16px 20px;
       font-size: 0.86rem; margin-bottom: 32px;
     }
@@ -246,7 +246,7 @@
 
       <p>This document will serve as the ongoing rebuild plan. It will be updated as decisions are made and components are developed, giving Forge &amp; Spark an opportunity to review, provide feedback, and approve the work as we move through the rebuild.</p>
 
-      <p class="why-note">Worth noting that regardless of where the architecture decision lands, the groundwork is already done and cost nothing to put in place. A staging site is set up and running, separate from the live site, so everything can be built and reviewed there before anything is promoted. The Novamira plugin that connects a WordPress site to AI tooling is installed and tested, and I use it heavily across five other sites. That is what the Foundation row below is describing: repo connected, deploy pipeline green, staging live, MCP connected, architecture recommended and awaiting sign-off.</p>
+      <p class="why-note">Worth noting that regardless of where the architecture decision lands, a staging site is already set up and running, separate from the live site, so everything can be built and reviewed there before anything is promoted. The Novamira plugin that connects a WordPress site to AI tooling is installed and tested, and I use it heavily across five other sites. That is what the Foundation row below is describing: repo connected, deploy pipeline green, staging live, MCP connected, architecture recommended and awaiting sign-off.</p>
     </section>
 
     <!-- WHERE THIS STANDS -->
@@ -273,10 +273,10 @@
     </table>
 
     <div class="callout">
-      <strong>The one thing blocking everything else.</strong> The theme code lives only in the
-      private <code>Forge-Spark/fs-website</code> repo, not in this Drive folder. Every other project
-      keeps its theme at <code>Website/{prefix}-theme/</code>. Until <code>fs-theme</code> is cloned
-      here, no working session can build against it.
+      <strong>Looking further ahead.</strong> Working this way also gives more modern client
+      deliverables somewhere to live when we get to that point. Live pages, interactive prototypes,
+      and shared dashboards a client can open in a browser, rather than static files sent back and
+      forth. That is not part of this phase, but it is the direction the groundwork points in.
     </div>
 
     <!-- FOUNDATION -->
