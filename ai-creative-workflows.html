@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forge &amp; Spark — AI in Creative Workflows</title>
+  <style>
+    /* ============================================================
+       Forge and Spark — Colors & Type (inlined verbatim from
+       Design Guidelines/colors_and_type.css, which stays the source
+       of truth. Inlined because this page publishes to GitHub Pages,
+       where a relative <link> outside the published folder 404s.
+       Same reason the time tracker and website-updates page inline
+       their tokens.
+       To update: re-copy from colors_and_type.css, do not hand-edit.)
+       ============================================================ */
+    @import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800&family=Archivo:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
+
+    :root {
+      --fs-yellow:        #F3DB57;
+      --fs-yellow-dark:   #E0C636;
+      --fs-yellow-wash:   #FBF3CC;
+
+      --fs-dark:          #1F455C;
+      --fs-dark-deeper:   #142F40;
+      --fs-blue-light:    #799FB5;
+      --fs-blue-wash:     #E4ECF1;
+
+      --fs-neutral:       #F6F6F5;
+      --fs-white:         #FFFFFF;
+      --fs-grey-light:    #F0F0F0;
+
+      --fs-cta:           #FC9D5D;
+      --fs-cta-dark:      #ED7F35;
+      --fs-cta-light:     #FDE6D5;
+
+      --fs-green:         #B4D670;
+      --fs-green-deep:    #5B8C5A;
+      --fs-pink:          #F2A4B3;
+
+      --fs-grey-1:        #6B7E89;
+      --fs-grey-2:        #B8C2C8;
+      --fs-grey-3:        #DDE2E5;
+
+      --bg:               var(--fs-neutral);
+      --bg-raised:        var(--fs-white);
+      --bg-inverse:       var(--fs-dark);
+      --fg:               var(--fs-dark);
+      --fg-muted:         var(--fs-grey-1);
+      --fg-on-dark:       var(--fs-neutral);
+      --accent:           var(--fs-yellow);
+      --cta:              var(--fs-cta);
+      --cta-hover:        var(--fs-cta-dark);
+      --border:           var(--fs-grey-3);
+      --border-strong:    var(--fs-grey-2);
+
+      --font-display: "Barlow Condensed", "Oswald", "Arial Narrow", sans-serif;
+      --font-sans:    "Archivo", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+      --font-mono:    "JetBrains Mono", "Menlo", ui-monospace, monospace;
+
+      --fw-regular:   400;
+      --fw-medium:    500;
+      --fw-semibold:  600;
+      --fw-bold:      700;
+      --fw-black:     800;
+
+      --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+      --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+      --sp-9: 80px; --sp-10: 120px;
+
+      --layout-max: 1280px;
+      --prose-max:  62ch;
+
+      --radius-sm:    6px;
+      --radius-input: 8px;
+      --radius-md:   12px;
+      --radius-lg:   20px;
+      --radius-pill: 999px;
+
+      --shadow-xs: 0 1px 2px rgba(31,69,92,0.06), 0 6px 12px rgba(31,69,92,0.04);
+      --shadow-md: 0 8px 24px rgba(31,69,92,0.14), 0 1px 2px rgba(31,69,92,0.08);
+      --shadow-inset-hairline: inset 0 -1px 0 rgba(31,69,92,0.10);
+      --shadow-focus: 0 0 0 3px rgba(252,157,93,0.28);
+
+      --ease-standard: cubic-bezier(0.32, 0.72, 0.24, 1);
+      --dur-fast: 140ms;
+      --dur-std:  220ms;
+      --dur-slow: 300ms;
+    }
+    /* ==================== end brand tokens ==================== */
+
+    :root {
+      --accent-light: var(--fs-yellow-wash);
+      --success-bg: #e8f3e8;
+      --success-text: var(--fs-green-deep);
+      --success-border: #b4d6b4;
+      --warning-bg: var(--fs-cta-light);
+      --warning-text: var(--fs-cta-dark);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); background: var(--bg); color: var(--fg); font-size: 15px; line-height: 1.7; }
+    .page { max-width: 780px; margin: 40px auto 80px; background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+
+    .header { background: var(--fs-dark); color: var(--fs-neutral); padding: 48px 48px 40px; }
+    .header h1 { font-family: var(--font-display); font-size: 2.8rem; line-height: 1.05; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 6px; color: var(--fs-yellow); }
+    .header .brand { font-family: var(--font-display); font-size: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fs-blue-light); margin-bottom: 12px; }
+    .header .sub { opacity: 0.65; font-size: 0.9rem; font-family: var(--font-sans); }
+
+    .meta-row { display: flex; gap: 40px; padding: 20px 48px; background: var(--accent-light); border-bottom: 1px solid var(--border); font-family: var(--font-sans); font-size: 0.85rem; flex-wrap: wrap; }
+    .meta-row div { display: flex; flex-direction: column; gap: 2px; }
+    .meta-row .label { color: var(--fg-muted); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.06em; font-family: var(--font-display); font-weight: 700; }
+    .meta-row .value { color: var(--fg); font-weight: 600; }
+    .meta-row a { color: var(--fs-dark); }
+
+    .body { padding: 40px 48px; }
+    .intro { color: var(--fg-muted); font-size: 0.95rem; margin-bottom: 36px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+    h2 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fs-dark); font-family: var(--font-display); font-weight: 800; margin-bottom: 20px; }
+
+    /* Rationale section — scoped so it does not disturb the page's other h2/h3 styles */
+    .why { margin-bottom: 44px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+    .why h2 {
+      font-family: var(--font-display);
+      font-size: 1.9rem;
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      text-transform: none;
+      color: var(--fs-dark);
+      margin-bottom: 16px;
+    }
+    .why h3 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--fs-dark);
+      margin: 28px 0 10px;
+    }
+    .why p { color: var(--fg-muted); font-size: 0.92rem; margin-bottom: 12px; }
+    .why p:last-child { margin-bottom: 0; }
+    .why p .lead-in { color: var(--fs-dark); font-weight: 700; }
+    .why ul { margin: 0 0 14px; padding-left: 20px; }
+    .why li { color: var(--fg-muted); font-size: 0.92rem; margin-bottom: 5px; list-style: disc; }
+    .why-note {
+      font-style: italic;
+      margin-top: 22px !important;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .phase-block { margin-bottom: 48px; }
+    .phase-title {
+      font-family: var(--font-display);
+      font-size: 1.9rem;
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--fs-dark);
+      margin-bottom: 8px;
+    }
+    .phase-title .badge { vertical-align: 0.45em; }
+    .phase-sub { font-family: var(--font-sans); font-size: 0.82rem; color: var(--fg-muted); margin-bottom: 20px; }
+    .scope-item { margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+    .scope-item:last-child { border-bottom: none; margin-bottom: 0; }
+    .scope-item h3 { font-size: 0.95rem; font-weight: 700; font-family: var(--font-display); margin-bottom: 4px; }
+    .scope-item p { color: var(--fg-muted); font-size: 0.88rem; }
+    .scope-item a, .why a {
+      color: var(--fs-dark); font-weight: 600;
+      text-decoration: underline; text-underline-offset: 2px;
+    }
+    .scope-item a:hover, .why a:hover { color: var(--fs-cta-dark); }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .badge-done    { background: var(--success-bg); color: var(--success-text); }
+    .badge-active  { background: var(--warning-bg); color: var(--warning-text); }
+    .badge-pending { background: var(--fs-grey-light); color: var(--fg-muted); }
+
+    .timeline-table { width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-size: 0.88rem; margin-bottom: 40px; }
+    .timeline-table td { padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .timeline-table td:first-child { font-weight: 700; white-space: nowrap; width: 160px; }
+    .timeline-table tr:last-child td { border-bottom: none; }
+
+    .tasks-list { list-style: none; }
+    .tasks-list li { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; display: flex; gap: 10px; }
+    .tasks-list li:last-child { border-bottom: none; }
+    .tasks-list .task-tag { font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--fg-muted); padding-top: 2px; white-space: nowrap; }
+
+    .step { display: flex; gap: 16px; margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+    .step:last-child { border-bottom: none; margin-bottom: 0; }
+    .step-num {
+      flex: 0 0 30px; height: 30px; border-radius: 50%;
+      background: var(--fs-yellow); color: var(--fs-dark);
+      font-family: var(--font-display); font-weight: 800; font-size: 0.85rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step-num.is-done { background: var(--success-bg); color: var(--success-text); }
+    .step-num.is-next { background: var(--fs-cta, #d64d7a); color: #fff; }
+    .step-body h3 { font-size: 0.95rem; font-weight: 700; font-family: var(--font-display); margin-bottom: 4px; }
+    .step-body p { color: var(--fg-muted); font-size: 0.88rem; }
+
+    .callout {
+      background: var(--accent-light); color: var(--fs-dark);
+      border-radius: var(--radius-sm); padding: 16px 20px;
+      font-size: 0.86rem; margin-bottom: 32px;
+    }
+    .callout strong { font-family: var(--font-display); }
+
+    .links-bar { background: var(--fs-dark); margin: 60px -48px -40px; padding: 24px 48px; display: flex; gap: 24px; flex-wrap: wrap; align-items: center; }
+    .links-bar a { font-family: var(--font-display); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--fs-yellow); text-decoration: none; }
+    .links-bar a:hover { text-decoration: underline; }
+    .links-bar .sep { color: var(--fs-blue-light); font-size: 0.7rem; }
+
+    @media (max-width: 640px) {
+      .header, .meta-row, .body { padding-left: 24px; padding-right: 24px; }
+      .links-bar { margin-left: -24px; margin-right: -24px; padding-left: 24px; padding-right: 24px; }
+      .meta-row { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="brand">Forge &amp; Spark</div>
+    <h1>AI in Creative Workflows</h1>
+    <div class="sub">Prepared by Lara Kroeker Interactive &nbsp;·&nbsp; Updated August 12, 2026</div>
+  </div>
+
+  <div class="meta-row">
+    <div><span class="label">Studio</span><span class="value">Forge &amp; Spark</span></div>
+    <div><span class="label">Owner</span><span class="value">Lara Kroeker</span></div>
+    <div><span class="label">Status</span><span class="value">Phase 1, discovery</span></div>
+    <div><span class="label">Last Updated</span><span class="value">August 12, 2026</span></div>
+  </div>
+
+  <div class="body">
+
+    <!-- WHY -->
+    <section class="why">
+      <h2>Why this needs its own plan</h2>
+
+      <p>AI is already part of how work gets done at Forge &amp; Spark. It is not, however, part of any shared system. Right now, use is real but informal: Claude chat and Cowork are the default, but that splits further the moment someone hits a credit limit or needs something those tools do not do well, and there is no picture yet of where people land after that or why.</p>
+
+      <h3>What is already working</h3>
+
+      <p>Some of this is solid and worth keeping as-is, though parts of it are assumptions rather than confirmed fact, flagged below as exactly that.</p>
+
+      <ul>
+        <li>Cowork, Claude chat, Perplexity, and ChatGPT are already in active use across the team <em>(need to confirm this is the full and accurate picture)</em></li>
+        <li>Claude chat is also where files get uploaded into Projects <em>(need to confirm that work actually lands in Drive or locally, not just inside Claude's own project space)</em></li>
+        <li>Lara is currently the only one working directly in code rather than chat <em>(need to confirm this is still true)</em>, which avoids the rewrite-copy-paste cycle of chat-based editing and holds up better over a long working session</li>
+        <li>A personal naming convention for folders already exists for Lara's own work and holds up well day to day</li>
+      </ul>
+
+      <h3>Where it breaks down</h3>
+
+      <p>Past that starting point, there is no shared system. That gap is sharper because the team is fully remote and mostly part-time, so people move in and out of projects without always holding the full picture, and there is no system today for posting or checking updates on what is happening. Project managers may hold some of that picture, but from a PM perspective, not a creative one. What's missing is a way to align the team from the creative side, one place to see updates, rather than several documents and project tools that each have to be checked separately.</p>
+
+      <ul>
+        <li>No system for posting or checking updates, so picking a project back up means reconstructing where it left off from scratch</li>
+        <li>No visibility into what people do when Claude runs out of credits, or which other platform they move to and why</li>
+        <li>No shared naming or folder convention past the one that already exists individually</li>
+        <li>No consistent way to track which parts of a client engagement involved AI-assisted work</li>
+        <li>No agreed pattern for when a task calls for chat, for Cowork, or for working directly in code</li>
+      </ul>
+
+      <p><span class="lead-in">Cowork projects versus Claude chat Projects:</span> these are not the same thing, even though they share a name, and mixing them up has real consequences for where a file actually ends up. Cowork projects cannot write files directly, work has to be copied back out and brought into Drive by hand. Claude chat Projects is a knowledge space for a conversation: files uploaded there give Claude context to work from, but they do not automatically end up saved anywhere outside Claude. Both are already in active use, so it is worth confirming, project by project, where the real, durable copy of the work actually lives.</p>
+
+      <p>None of that is a crisis. It is the normal state of a tool that got adopted faster than a system could be built around it.</p>
+
+      <h3>Why this is worth doing properly</h3>
+
+      <p><span class="lead-in">Efficiency:</span> the point of this work is to make the studio meaningfully more efficient, not to add process for its own sake. A shared system only earns its place if it removes friction people can feel.</p>
+
+      <p><span class="lead-in">Consistency:</span> a shared naming and folder convention, and a shared sense of which tool fits which task, means work is easier to hand off, easier to pick back up, and easier for anyone (including AI tools themselves) to understand later.</p>
+
+      <p><span class="lead-in">New ways to present work:</span> once the internal workflow is solid, there is real opportunity in how work gets presented to clients, live pages and interactive deliverables rather than static files, building on the direction already started with the <a href="website-updates.html">Website Updates</a> apps work.</p>
+
+      <p><span class="lead-in">Client insight:</span> understanding how the studio actually works with AI is also a preview of how clients are working, or trying to work. People are already starting to ask about this. Running discovery internally first means any recommendation made to a client is based on something actually tested, not guessed at. Whether that becomes an offered service is not decided, but the discovery work builds the knowledge either way.</p>
+
+      <p><span class="lead-in">Lower risk:</span> switching how people work is a real disruption, not a small one. Getting the order of operations right, understanding first, changing second, is what keeps that disruption worth it instead of just disruptive.</p>
+
+      <h3>The approach</h3>
+
+      <p>This is not a rollout plan for new tools. It is a plan for how the studio works, what matters most in that work, and how it gets documented, so that any tool decisions serve that instead of leading it. The phases below are deliberately sequential: nothing in Phase 2 gets decided until Phase 1 has real answers, because right now, honestly, some of those answers are not known yet.</p>
+
+      <p>This also needs to connect back to the AI guidelines that already exist in the project system. They are already written and accurate, but almost no one reads them in practice. Part of what this plan needs to solve is making that guidance something people actually encounter and use, not a document that exists somewhere and gets forgotten. <em>(Link to add here once located.)</em></p>
+
+      <p>Underneath all of it is the same goal: get the studio's own AI workflow solid enough that any recommendation made to a client is standing on something real, not a guess. That is the order of operations, our workflow first, client recommendations second, not the other way around.</p>
+
+      <p class="why-note">Worth naming directly: changing how a team works, and changing shared structure, are both significant even when the change is good. This plan treats that as a real cost to manage, not a footnote.</p>
+    </section>
+
+    <!-- WHERE THIS STANDS -->
+    <h2>Where This Stands</h2>
+    <table class="timeline-table">
+      <tbody>
+        <tr>
+          <td style="color:var(--warning-text);">&#8635; Discovery</td>
+          <td>Next up. Nothing formal has been mapped yet about how the team actually uses AI day to day</td>
+        </tr>
+        <tr>
+          <td style="color:var(--warning-text);">&#8635; Design tools</td>
+          <td>In progress, running in parallel. Evaluating Claude, Antigravity, Gemini, HTML design, image generation, and Canva automation against the studio's Design Guidelines</td>
+        </tr>
+        <tr>
+          <td style="color:var(--fg-muted);">System design</td>
+          <td>Not started. Blocked on discovery findings</td>
+        </tr>
+        <tr>
+          <td style="color:var(--fg-muted);">Pilot</td>
+          <td>Not started</td>
+        </tr>
+        <tr>
+          <td style="color:var(--fg-muted);">Client-facing formats</td>
+          <td>Not started. Directionally underway already through the apps work in <a href="website-updates.html">Website Updates</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <strong>The order matters.</strong> Each phase below is a gate, not a milestone on a fixed calendar.
+      Phase 2 does not start until Phase 1 has real findings, and the pilot in Phase 3 happens on one
+      contained piece of work before anything is asked of the wider team.
+    </div>
+
+    <!-- CONTRACT DELIVERABLES -->
+    <h2>Contract Deliverables</h2>
+    <ul class="tasks-list">
+      <li><span class="task-tag">Ongoing</span>Co-designing AI workflows with Bronwyn</li>
+      <li><span class="task-tag">Quarterly</span>Bringing Shannon a recommendation on which AI tools to adopt, drop, or watch</li>
+    </ul>
+
+    <!-- PHASE 1 -->
+    <div class="phase-block">
+      <div class="phase-title">Phase 1: Discovery &nbsp;<span class="badge badge-active">&#8635; Next</span></div>
+      <div class="phase-sub">Find out how the studio actually uses AI today, before deciding anything about what should change.</div>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Which tool, for which kind of work</h3>
+          <p>For each person: what gets done in Claude chat or Projects, what gets done in Cowork, Perplexity, or ChatGPT, and what (if anything) already happens in code.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>What happens at the credit limit</h3>
+          <p>When Claude runs out of credits mid-task, which platform does each person move to, and why that one specifically.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>How work gets named, saved, and handed off</h3>
+          <p>Whether each person has their own system, a shared one, or none, and what happens when work needs to be picked up by someone else.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>Where AI already touches client work</h3>
+          <p>Any place AI is already part of a client deliverable today, even informally or without anyone deciding it should be.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h3>What is frustrating or slow right now</h3>
+          <p>In the team's own words, not assumed. This is the question most likely to surface something Phase 2 needs to solve for.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <h3>What people already know is possible</h3>
+          <p>A baseline for how much of this is a tooling gap versus an awareness gap, since the two need different fixes.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESIGN TOOLS -->
+    <div class="phase-block">
+      <div class="phase-title">Design tools &nbsp;<span class="badge badge-active">&#8635; In progress</span></div>
+      <div class="phase-sub">A separate track already underway, running in parallel with the discovery work above: what actually works well for AI-assisted design. This is also where the quarterly recommendation to Shannon on which tools to adopt, drop, or watch actually gets built.</div>
+
+      <div class="scope-item">
+        <h3>HTML design</h3>
+        <p>The strongest results so far.</p>
+      </div>
+      <div class="scope-item">
+        <h3>Claude</h3>
+        <p>Being evaluated for design work directly. No verdict yet.</p>
+      </div>
+      <div class="scope-item">
+        <h3>Antigravity</h3>
+        <p>Being evaluated. No verdict yet.</p>
+      </div>
+      <div class="scope-item">
+        <h3>Gemini</h3>
+        <p>Google's model line, being evaluated for design work. No verdict yet.</p>
+      </div>
+      <div class="scope-item">
+        <h3>Canva automation</h3>
+        <p>Being evaluated. No verdict yet.</p>
+      </div>
+      <div class="scope-item">
+        <h3>Image generation</h3>
+        <p>Not used much yet, but expected to grow.</p>
+      </div>
+      <div class="scope-item">
+        <h3>Design Guidelines</h3>
+        <p>How the studio's existing tokens and reference system feed into whichever tools get adopted, so output matches brand from the start rather than needing correction after the fact.</p>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase-block">
+      <div class="phase-title">Phase 2: Define the system &nbsp;<span class="badge badge-pending">Pending</span></div>
+      <div class="phase-sub">Build the shared structure based on what Phase 1 actually finds, not on assumptions made ahead of it. Co-designed with Bronwyn rather than handed to her finished.</div>
+
+      <div class="scope-item">
+        <h3>Naming and folder conventions</h3>
+        <p>Extend what already works for Lara's own folders into something the wider team can follow.</p>
+      </div>
+      <div class="scope-item">
+        <h3>Tool guidance</h3>
+        <p>A plain answer to "chat, Cowork, or code" for common kinds of work, grounded in what Phase 1 shows people actually need.</p>
+      </div>
+      <div class="scope-item">
+        <h3>Handoff pattern</h3>
+        <p>How AI-assisted work gets documented well enough that someone else can pick it up without reconstructing context from scratch.</p>
+      </div>
+      <div class="scope-item">
+        <h3>Project updates and status visibility</h3>
+        <p>A real system for posting and checking updates, built for a fully remote, mostly part-time team where people move in and out of projects. This is a creative-side view, not a PM view. One place to see where things stand, instead of several documents and project tools that each have to be checked separately.</p>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase-block">
+      <div class="phase-title">Phase 3: Pilot &nbsp;<span class="badge badge-pending">Pending</span></div>
+      <div class="phase-sub">Test the system on one real, contained piece of work before asking anyone to change how they operate.</div>
+
+      <div class="scope-item">
+        <h3>Pick one low-risk project</h3>
+        <p>Something contained enough that friction shows up quickly and does not put client work at risk.</p>
+      </div>
+      <div class="scope-item">
+        <h3>Run it start to finish under the new pattern</h3>
+        <p>Then adjust before anything gets asked of the wider team.</p>
+      </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="phase-block">
+      <div class="phase-title">Phase 4: New client-facing formats &nbsp;<span class="badge badge-pending">Pending</span></div>
+      <div class="phase-sub">Once the internal workflow holds, look at new ways of presenting AI-assisted work to clients, and whether advising clients on their own AI setup becomes an actual offering.</div>
+
+      <div class="scope-item">
+        <h3>Live pages and interactive deliverables</h3>
+        <p>Building on the direction already named in <a href="website-updates.html">Website Updates</a>: things a client opens in a browser, rather than a static file sent back and forth.</p>
+      </div>
+      <div class="scope-item">
+        <h3>AI setup and workflow advisory <em>(exploratory)</em></h3>
+        <p>Clients are already starting to ask how to set up and run their own AI workflows. This could become a real recommendation, or a real service, but only once the studio's own approach has actually been tested through Phases 1 through 3. Not committed to yet.</p>
+      </div>
+    </div>
+
+    <!-- OPEN DECISIONS -->
+    <h2>Open Decisions</h2>
+    <ul class="tasks-list">
+      <li><span class="task-tag">Discovery</span>Which platforms the team actually falls back to, and whether that gap is a problem worth solving or already fine as-is</li>
+      <li><span class="task-tag">System</span>Whether the outcome of Phase 2 becomes a policy the team is expected to follow, or a set of defaults offered without a mandate</li>
+      <li><span class="task-tag">Tracking</span>How AI-assisted time gets tracked for SR&amp;ED purposes, currently a placeholder in the <a href="index.html">time tracker</a></li>
+      <li><span class="task-tag">Scope</span>Whether Phase 4 belongs in this plan at all, or should be tracked as its own separate initiative</li>
+      <li><span class="task-tag">Service</span>Whether AI setup and workflow advice becomes an offered service, since clients are already starting to ask, or stays an informal recommendation for now</li>
+    </ul>
+
+    <!-- OPEN TASKS -->
+    <h2>Open Tasks</h2>
+    <ul class="tasks-list">
+      <li><span class="task-tag">Phase 1</span>Run the discovery pass with the team, one conversation per person, using the six questions above</li>
+      <li><span class="task-tag">Docs</span>Find and add the link to the existing AI guidelines in the project system</li>
+    </ul>
+
+    <!-- LINKS BAR -->
+    <div class="links-bar">
+      <a href="website-updates.html">Website Updates</a>
+      <span class="sep">&middot;</span>
+      <a href="index.html">Time Tracker</a>
+      <span class="sep">&middot;</span>
+      <a href="https://forgeandspark.com">forgeandspark.com</a>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
