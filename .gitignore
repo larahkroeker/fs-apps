@@ -1,0 +1,9 @@
+# Oliver board: raw calendar data + generated caches stay local.
+# This repo is served publicly by GitHub Pages.
+_src/oliver-board/sheet.json
+_src/oliver-board/calendar.xlsx
+_src/oliver-board/media/
+_src/oliver-board/thumbs/
+_src/oliver-board/*.docx
+
+.DS_Store
