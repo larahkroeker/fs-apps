@@ -13,7 +13,6 @@ files are served exactly as committed. Push to `main` and it's live in under a m
 | --- | --- | --- |
 | FS Time Tracker | [`index.html`](https://larahkroeker.github.io/fs-apps/) | Time tracking tool |
 | AI Creative Workflows | [`ai-creative-workflows.html`](https://larahkroeker.github.io/fs-apps/ai-creative-workflows.html) | |
-| Website Updates | [`website-updates.html`](https://larahkroeker.github.io/fs-apps/website-updates.html) | |
 | Oliver — Content Board | [`clients/OLIVER-content-board.html`](https://larahkroeker.github.io/fs-apps/clients/OLIVER-content-board.html) | Generated — see [`_src/oliver-board`](_src/oliver-board/README.md). `noindex`. |
 | Oliver — Form Prototype | [`clients/OLIVER-form-prototype.html`](https://larahkroeker.github.io/fs-apps/clients/OLIVER-form-prototype.html) | Proposed rework of the Request a Demo form |
 
